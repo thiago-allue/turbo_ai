@@ -132,7 +132,7 @@ export default function SignUp() {
           border-radius: 46px;
           padding: 12px 16px;
           width: 350px;
-          height: 20px;
+          height: 18px;
           margin-top: 10px;
         }
 
@@ -146,7 +146,7 @@ export default function SignUp() {
 
         .login-link {
           position: absolute;
-          top: 430px;
+          top: 410px;
           left: 448px;
           width: 384px;
           text-align: center;
