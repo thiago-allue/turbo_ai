@@ -1,45 +1,45 @@
-import React, { useState } from 'react';
-import { useRouter } from 'next/router';
-import Link from 'next/link';
-import api from '../services/api';
+import React, { useState } from 'react'
+import { useRouter } from 'next/router'
+import Link from 'next/link'
+import api from '../services/api'
+import InputPasswordCustom from '../components/InputPasswordCustom'
 
 export default function SignUp() {
-  const router = useRouter();
+  const router = useRouter()
 
-  const [firstName, setFirstName] = useState('');
-  const [lastName, setLastName]   = useState('');
-  const [email, setEmail]         = useState('');
-  const [password, setPassword]   = useState('');
-  const [showPassword, setShowPassword] = useState(false);
-  const [error, setError]         = useState('');
+  const [firstName, setFirstName] = useState('')
+  const [lastName, setLastName]   = useState('')
+  const [email, setEmail]         = useState('')
+  const [password, setPassword]   = useState('')
+  const [error, setError]         = useState('')
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
-    setError('');
+    e.preventDefault()
+    setError('')
     try {
       const res = await api.register({
         first_name: firstName,
         last_name: lastName,
         username: email,
         password
-      });
-      const token = res.data.token;
-      localStorage.setItem('token', token);
+      })
+      const token = res.data.token
+      localStorage.setItem('token', token)
 
-      const { first_name } = res.data.user;
-      localStorage.setItem('first_name', first_name || '');
+      const { first_name } = res.data.user
+      localStorage.setItem('first_name', first_name || '')
 
-      router.push('/dashboard');
+      router.push('/dashboard')
     } catch (err) {
-      setError(err.response?.data?.error || 'Signup failed');
+      setError(err.response?.data?.error || 'Signup failed')
     }
-  };
+  }
 
   return (
     <>
       <style>{`
         .sign-up-container {
-          background-color: #fff9e6; /* Updated background color */
+          background-color: #fff9e6;
           display: flex;
           justify-content: center;
           width: 100%;
@@ -47,7 +47,7 @@ export default function SignUp() {
         }
 
         .content {
-          background-color: #fff9e6; /* Updated background color */
+          background-color: #fff9e6;
           position: relative;
           width: 1280px;
           height: 832px;
@@ -122,15 +122,6 @@ export default function SignUp() {
           margin-bottom: 10px;
         }
 
-        .checkbox-area {
-          display: flex;
-          align-items: center;
-          gap: 5px;
-          margin-bottom: 10px;
-          font-size: 12px;
-          color: #000;
-        }
-
         .signup-button {
           all: unset;
           cursor: pointer;
@@ -153,10 +144,9 @@ export default function SignUp() {
           margin-top: -1px;
         }
 
-        /* Updated: move the link below the button and center it */
         .login-link {
           position: absolute;
-          top: 430px; /* Adjusted to be below the button */
+          top: 430px;
           left: 448px;
           width: 384px;
           text-align: center;
@@ -198,33 +188,31 @@ export default function SignUp() {
               </div>
             </div>
 
-            <div className="single-field field-wrapper">
-              <input
-                className="input-field"
-                type="text"
-                placeholder="Email address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
+            <div className="single-field">
+              <div className="field-wrapper">
+                <input
+                  className="input-field"
+                  type="text"
+                  placeholder="Email address"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
             </div>
 
-            <div className="single-field field-wrapper">
-              <input
-                className="input-field"
-                type={showPassword ? 'text' : 'password'}
-                placeholder="Password"
+            <div className="single-field">
+              <InputPasswordCustom
+                style={{
+                  width: '100%',
+                  height: '39px',
+                  border: '1px solid #947038',
+                  borderRadius: '6px',
+                  padding: '7px 15px',
+                  boxSizing: 'border-box'
+                }}
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
               />
-            </div>
-
-            <div className="checkbox-area">
-              <input
-                type="checkbox"
-                checked={showPassword}
-                onChange={() => setShowPassword(!showPassword)}
-              />
-              <label>Show Password</label>
             </div>
 
             <button type="submit" className="signup-button">
@@ -238,5 +226,5 @@ export default function SignUp() {
         </div>
       </div>
     </>
-  );
+  )
 }
