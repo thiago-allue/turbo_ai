@@ -20,7 +20,7 @@ export default function ProfilePage() {
     try {
       const res = await api.getProfile()
       form.setFieldsValue({
-        email: res.data.username,           // read-only
+        email: res.data.username, // read-only
         firstName: res.data.first_name || '',
         lastName: res.data.last_name || '',
         currentPassword: '',
@@ -34,7 +34,7 @@ export default function ProfilePage() {
   }
 
   const onFinish = async (values) => {
-    message.destroy()  // clear old messages
+    message.destroy() // clear old messages
     try {
       await api.updateProfile({
         first_name: values.firstName,
@@ -68,59 +68,75 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ maxWidth: 600, margin: '40px auto' }}>
-      <h1>Edit Profile</h1>
-
-      <Form
-        form={form}
-        layout='vertical'
-        onFinish={onFinish}
-        style={{ marginTop: 20 }}
-      >
-        {/* Email => read-only */}
-        <Form.Item label='Email (read-only)' name='email'>
-          <Input disabled />
-        </Form.Item>
-
-        <Row gutter={16}>
-          <Col span={12}>
-            <Form.Item label='First Name' name='firstName'>
-              <Input />
-            </Form.Item>
-          </Col>
-          <Col span={12}>
-            <Form.Item label='Last Name' name='lastName'>
-              <Input />
-            </Form.Item>
-          </Col>
-        </Row>
-
-        <hr />
-
-        <Form.Item
-          label='Current Password (required to set a new password)'
-          name='currentPassword'
+    <div style={{ minHeight: '100vh', position: 'relative' }}>
+      {/* Main content area */}
+      <div style={{ maxWidth: 600, margin: '40px auto' }}>
+        <h1>Edit Profile</h1>
+        <Form
+          form={form}
+          layout='vertical'
+          onFinish={onFinish}
+          style={{ marginTop: 20 }}
         >
-          <Input.Password />
-        </Form.Item>
+          {/* Email => read-only */}
+          <Form.Item label='Email (read-only)' name='email'>
+            <Input disabled />
+          </Form.Item>
 
-        <Form.Item label='New Password' name='newPassword'>
-          <Input.Password />
-        </Form.Item>
+          <Row gutter={16}>
+            <Col span={12}>
+              <Form.Item label='First Name' name='firstName'>
+                <Input />
+              </Form.Item>
+            </Col>
+            <Col span={12}>
+              <Form.Item label='Last Name' name='lastName'>
+                <Input />
+              </Form.Item>
+            </Col>
+          </Row>
 
-        <Form.Item label='Repeat New Password' name='repeatNewPassword'>
-          <Input.Password />
-        </Form.Item>
+          <hr />
 
-        <div style={{ marginTop: 20 }}>
-          <Button type='primary' htmlType='submit'>
-            Save Changes
-          </Button>
-          <Button style={{ marginLeft: 20 }} onClick={handleBack}>
-            Back to Dashboard
-          </Button>
-        </div>
-      </Form>
+          <Form.Item
+            label='Current Password (required to set a new password)'
+            name='currentPassword'
+          >
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item label='New Password' name='newPassword'>
+            <Input.Password />
+          </Form.Item>
+
+          <Form.Item label='Repeat New Password' name='repeatNewPassword'>
+            <Input.Password />
+          </Form.Item>
+
+          <div style={{ marginTop: 20 }}>
+            <Button type='primary' htmlType='submit'>
+              Save Changes
+            </Button>
+            <Button style={{ marginLeft: 20 }} onClick={handleBack}>
+              Back to Dashboard
+            </Button>
+          </div>
+        </Form>
+      </div>
+
+      {/* Dog image pinned to bottom-left */}
+      <img
+        src='/dog.png'
+        alt='Dog'
+        style={{
+          position: 'fixed',
+          bottom: '20px',
+          left: '20px',
+          width: '200px',      // choose a suitable width
+          height: 'auto',
+          zIndex: 999         // ensure it appears on top
+        }}
+      />
     </div>
   )
 }
