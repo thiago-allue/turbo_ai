@@ -270,59 +270,77 @@ export default function DashboardPage() {
         <div style={{ position: 'absolute', top: '55px', right: '40px' }}>
           <NewNoteButton onClick={handleCreateNote} />
         </div>
-        <div style={{
-          marginTop: '88px',
-          marginLeft: '150px',
-          padding: '20px',
-          display: 'flex',
-          flexWrap: 'wrap',
-          gap: '10px'
-        }}>
+        {/* This container is where the notes or the empty state will display */}
+        <div
+          style={{
+            marginTop: '88px',
+            marginLeft: '150px',
+            padding: '20px',
+            display: 'flex',
+            flexWrap: 'wrap',
+            gap: '10px',
+            position: 'relative',
+            minHeight: 'calc(100vh - 88px - 40px)',
+          }}
+        >
           {filteredNotes.length === 0 ? (
+            // Full overlay to center the content vertically/horizontally
             <div
               style={{
                 width: '100%',
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-                marginTop: '50px',
-                position: 'relative'
+                height: '100%',
+                position: 'relative',
               }}
             >
-              {/* Adjust marginLeft or transform below to fine-tune cup position */}
-              <img
-                src="/cup.png"
-                alt="No notes"
-                style={{
-                  width: '300px',            // 50% bigger (was 200px)
-                  height: 'auto',
-                  transform: 'translateX(-10px)', // shifts 10px left
-                  marginLeft: '-100px'             // shifts cup 100px left from center
-                }}
-              />
+              {/* 
+                Absolutely center the container (cup + text).
+                Then shift left by 100px.  Adjust if you want more or less offset.
+                Fine-tune transforms here for horizontal shifts:
+                e.g. translate(-50%, -50%) translateX(-80px), etc.
+              */}
               <div
-                className="label"
                 style={{
-                  marginTop: '20px',
-                  height: '29px',
-                  width: '522px',
+                  position: 'absolute',
+                  top: '50%',
+                  left: '50%',
+                  transform: 'translate(-50%, -50%) translateX(-150px) translateY(250px)',
                   display: 'flex',
-                  justifyContent: 'center'
+                  flexDirection: 'column',
+                  alignItems: 'center',
                 }}
               >
-                <div
-                  className="text-wrapper"
+                <img
+                  src="/cup.png"
+                  alt="No notes"
                   style={{
-                    color: '#88632a',
-                    fontFamily: '"Inter-Regular", Helvetica',
-                    fontSize: '24px',
-                    fontWeight: 400,
-                    letterSpacing: 0,
-                    lineHeight: 'normal',
-                    position: 'relative'
+                    width: '300px', // 50% bigger than original 200px
+                    height: 'auto',
+                  }}
+                />
+                <div
+                  className="label"
+                  style={{
+                    marginTop: '20px',
+                    height: '29px',
+                    width: '522px',
+                    display: 'flex',
+                    justifyContent: 'center'
                   }}
                 >
-                  I’m just here waiting for your charming notes...
+                  <div
+                    className="text-wrapper"
+                    style={{
+                      color: '#88632a',
+                      fontFamily: '"Inter-Regular", Helvetica',
+                      fontSize: '24px',
+                      fontWeight: 400,
+                      letterSpacing: 0,
+                      lineHeight: 'normal',
+                      position: 'relative'
+                    }}
+                  >
+                    I’m just here waiting for your charming notes...
+                  </div>
                 </div>
               </div>
             </div>
