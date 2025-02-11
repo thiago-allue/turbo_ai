@@ -1,0 +1,8 @@
+z_*
+.idea
+.git
+/.~lock.z_step_by_step.odt#
+/backend/.venv/
+/frontend/.next/
+/frontend/node_modules/
+.env
