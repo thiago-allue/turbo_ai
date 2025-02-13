@@ -60,11 +60,11 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'turbo_ai.wsgi.application'
 
-# Database (SQLite)
+# Use SQLite instead of Postgres, with a relative path
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     }
 }
 
@@ -108,4 +108,3 @@ REST_FRAMEWORK = {
 
 # CORS
 CORS_ALLOW_ALL_ORIGINS = True
-
