@@ -1,3 +1,6 @@
+# Defines input variables for the Terraform configuration.
+# These values can be customized, or overridden via CLI or environment variables.
+
 variable "aws_region" {
   type        = string
   description = "AWS region to create resources in."

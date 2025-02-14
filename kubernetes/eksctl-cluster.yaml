@@ -1,3 +1,6 @@
+# EKS cluster configuration file for eksctl.
+# Specifies the cluster name, region, and node group settings.
+
 apiVersion: eksctl.io/v1alpha5
 kind: ClusterConfig
 

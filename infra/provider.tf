@@ -1,3 +1,5 @@
+# Configures Terraform's AWS provider and sets the AWS region.
+
 terraform {
   required_version = ">= 1.3.0"
 

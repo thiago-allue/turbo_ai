@@ -1,3 +1,6 @@
+# This ConfigMap holds configuration data for the notes backend.
+# Specifically sets the Django settings module or other environment vars needed by the backend.
+
 apiVersion: v1
 kind: ConfigMap
 metadata:

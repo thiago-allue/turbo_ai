@@ -1,3 +1,6 @@
+# HorizontalPodAutoscaler resource to scale the backend replicas based on CPU usage.
+# Helps maintain performance under varying workloads.
+
 apiVersion: autoscaling/v2
 kind: HorizontalPodAutoscaler
 metadata:

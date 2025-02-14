@@ -1,3 +1,6 @@
+# Deployment resource for the Django backend.
+# Defines how many replicas (pods) of the backend are run and how they are configured.
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,6 +23,8 @@ spec:
         image: YOUR_BACKEND_IMAGE_HERE
         ports:
           - containerPort: 8000
+
+        # Environment variables can be injected via ConfigMap/Secret references.
         env:
           - name: DJANGO_SETTINGS_MODULE
             valueFrom:
@@ -31,17 +36,22 @@ spec:
               secretKeyRef:
                 name: notes-backend-secret
                 key: SECRET_KEY
+
+        # Readiness probe ensures traffic is sent only after the backend is ready.
         readinessProbe:
           httpGet:
             path: /admin
             port: 8000
           initialDelaySeconds: 15
           periodSeconds: 10
+
+        # Liveness probe restarts the container if it becomes unresponsive.
         livenessProbe:
           httpGet:
             path: /admin
             port: 8000
           initialDelaySeconds: 30
           periodSeconds: 10
+
       imagePullSecrets:
         - name: aws-ecr-credentials

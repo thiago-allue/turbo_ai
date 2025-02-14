@@ -1,27 +1,20 @@
-version: '3.8'
-
 services:
   backend:
+    container_name: backend
     build:
       context: .
-      dockerfile: ./backend/Dockerfile
+      dockerfile: Dockerfile
     volumes:
-      - ./backend:/app
+      - .:/app
     ports:
       - "8000:8000"
-    command: >
-      bash -c "
-        python manage.py migrate &&
-        python manage.py runserver 0.0.0.0:8000
-      "
+    command: python backend/manage.py runserver 0.0.0.0:8000
 
   frontend:
+    container_name: frontend
     build:
-      context: .
-      dockerfile: ./frontend/Dockerfile
-    # Removing volume here so the '.next' build folder won't be overwritten
+      context: ./frontend
+      dockerfile: Dockerfile
     ports:
       - "3000:3000"
-    depends_on:
-      - backend
-    command: npm start
+    command: npm run dev

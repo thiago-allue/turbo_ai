@@ -1,7 +1,10 @@
+# Manages the EKS cluster and node group, including VPC configuration for subnets.
+
 resource "aws_eks_cluster" "this" {
   name     = var.cluster_name
   role_arn = aws_iam_role.cluster_role.arn
 
+  # VPC config references the private subnets for EKS
   vpc_config {
     subnet_ids = [
       for subnet in aws_subnet.private_subnets : subnet.id
@@ -21,15 +24,17 @@ resource "aws_eks_node_group" "this" {
   cluster_name    = aws_eks_cluster.this.name
   node_group_name = "${var.cluster_name}-nodegroup"
   node_role_arn   = aws_iam_role.node_role.arn
+
   subnet_ids = [
     for subnet in aws_subnet.private_subnets : subnet.id
   ]
+
   scaling_config {
     desired_size = var.desired_capacity
     max_size     = var.max_capacity
     min_size     = var.min_capacity
   }
-  disk_size = 20
+  disk_size      = 20
   instance_types = [var.instance_type]
 
   depends_on = [
@@ -40,7 +45,7 @@ resource "aws_eks_node_group" "this" {
   ]
 }
 
-# Allow cluster SG to communicate with node SG
+# Allows cluster SG to communicate with node SG
 resource "aws_security_group_rule" "cluster_to_node" {
   type              = "ingress"
   from_port         = 0
@@ -50,7 +55,7 @@ resource "aws_security_group_rule" "cluster_to_node" {
   source_security_group_id = aws_security_group.eks_cluster_sg.id
 }
 
-# Allow node SG to communicate with cluster SG
+# Allows node SG to communicate with cluster SG
 resource "aws_security_group_rule" "node_to_cluster" {
   type                     = "ingress"
   from_port                = 0

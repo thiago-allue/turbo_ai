@@ -1,3 +1,6 @@
+# Service definition for the Django backend, exposing port 8000 internally.
+# Other services or an Ingress can reference this for backend traffic routing.
+
 apiVersion: v1
 kind: Service
 metadata:

@@ -1,3 +1,5 @@
+# Kubernetes Namespace to logically group all resources for the notes app.
+
 apiVersion: v1
 kind: Namespace
 metadata:

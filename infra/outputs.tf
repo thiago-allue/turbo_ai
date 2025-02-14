@@ -1,3 +1,5 @@
+# Outputs for retrieving certain infrastructure details (VPC ID, Subnets, EKS info).
+
 output "vpc_id" {
   description = "The VPC ID."
   value       = aws_vpc.this.id

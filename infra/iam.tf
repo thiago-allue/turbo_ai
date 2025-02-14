@@ -1,7 +1,13 @@
+# This Terraform configuration manages IAM roles and policies for EKS cluster and node groups.
+
 # EKS Cluster IAM Role
 resource "aws_iam_role" "cluster_role" {
+  # The name given to the IAM role
   name               = "${var.cluster_name}-cluster-role"
+
+  # The assume_role_policy grants EKS the permission to assume this role
   assume_role_policy = data.aws_iam_policy_document.eks_assume_role_policy.json
+
   tags = {
     Name = "${var.cluster_name}-cluster-role"
   }
@@ -10,6 +16,7 @@ resource "aws_iam_role" "cluster_role" {
 data "aws_iam_policy_document" "eks_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
+
     principals {
       type        = "Service"
       identifiers = ["eks.amazonaws.com"]
@@ -32,6 +39,7 @@ resource "aws_iam_role_policy_attachment" "cluster_policy_attachment_eks_service
 resource "aws_iam_role" "node_role" {
   name               = "${var.cluster_name}-node-role"
   assume_role_policy = data.aws_iam_policy_document.eks_node_assume_role_policy.json
+
   tags = {
     Name = "${var.cluster_name}-node-role"
   }
@@ -40,6 +48,7 @@ resource "aws_iam_role" "node_role" {
 data "aws_iam_policy_document" "eks_node_assume_role_policy" {
   statement {
     actions = ["sts:AssumeRole"]
+
     principals {
       type        = "Service"
       identifiers = ["ec2.amazonaws.com"]

@@ -1,3 +1,6 @@
+# Deployment resource for the Next.js frontend.
+# Defines how many replicas of the frontend are run and how they are configured.
+
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -20,17 +23,22 @@ spec:
         image: YOUR_FRONTEND_IMAGE_HERE
         ports:
           - containerPort: 3000
+
+        # Readiness probe ensures traffic is sent only after the frontend is ready.
         readinessProbe:
           httpGet:
             path: /
             port: 3000
           initialDelaySeconds: 10
           periodSeconds: 5
+
+        # Liveness probe checks if the container is still running.
         livenessProbe:
           httpGet:
             path: /
             port: 3000
           initialDelaySeconds: 20
           periodSeconds: 5
+
       imagePullSecrets:
         - name: aws-ecr-credentials
