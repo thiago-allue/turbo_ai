@@ -1,3 +1,8 @@
+/**
+ * Login page for existing users.
+ * Allows entering an email and password, with a link to sign up.
+ */
+
 import { useState } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
@@ -22,7 +27,6 @@ const innerDivStyles = {
   width: '1280px',
 }
 
-// Email container => top: 334px
 const emailContainerStyles = {
   position: 'absolute',
   top: '334px',
@@ -37,9 +41,6 @@ const emailContainerStyles = {
   boxSizing: 'border-box',
 }
 
-// Password container => top: 386px
-// We'll keep 52px difference from email => so top=386px is fine
-// Then for the button, also 52px difference => so top=438px
 const passwordContainerStyles = {
   position: 'absolute',
   top: '386px',
@@ -51,7 +52,7 @@ const loginButtonStyles = {
   all: 'unset',
   cursor: 'pointer',
   position: 'absolute',
-  top: '438px', // 386 + 52 => matches the email->password spacing
+  top: '438px',
   left: '448px',
   width: '384px',
   height: '43px',
@@ -72,7 +73,6 @@ const loginTextStyles = {
   marginTop: '-1px',
 }
 
-// Error text => top: 290px, left: 448px
 const errorStyle = {
   color: 'red',
   position: 'absolute',
@@ -81,7 +81,6 @@ const errorStyle = {
   fontFamily: 'Inter-Regular, Helvetica',
 }
 
-// "Oops" link => position: absolute, top=495 => let's place it a bit below the button
 const linkWrapperStyles = {
   position: 'absolute',
   top: '495px',
@@ -107,14 +106,23 @@ const headingStyles = {
 }
 
 export default function LoginPage() {
+
+  // Next.js router for navigation
   const router = useRouter()
+
+  // State for user input
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
   const [error, setError] = useState('')
 
+  /**
+   * Handles the login form submission.
+   * Calls the API, and on success, sets local storage and navigates to the dashboard.
+   */
   const handleSubmit = async (e) => {
     e.preventDefault()
     setError('')
+
     try {
       const res = await api.login({ username: email, password })
       const token = res.data.token

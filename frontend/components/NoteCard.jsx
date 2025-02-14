@@ -1,3 +1,8 @@
+/**
+ * NoteCard component displaying a brief preview of a single note.
+ * Shows the last edited date, category, truncated content, and a delete icon.
+ */
+
 import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { formatDate } from '../utils/dateUtils'
@@ -8,17 +13,30 @@ import { Modal, message } from 'antd'
 const { confirm } = Modal
 
 export default function NoteCard({ note, onNoteDelete }) {
+
+  // Next.js router for navigating to the note detail page
   const router = useRouter()
+
+  // Local state to hide the card after deletion
   const [deleted, setDeleted] = useState(false)
 
+  /**
+   * If card is marked as deleted, do not render anything.
+   */
   if (deleted) {
     return null
   }
 
+  /**
+   * Navigates to the note detail page on card click.
+   */
   const handleCardClick = () => {
     router.push(`/notes/${note.id}`)
   }
 
+  /**
+   * Confirms and deletes the note, then updates UI.
+   */
   const handleDelete = (e) => {
     e.stopPropagation()
     confirm({
@@ -40,12 +58,23 @@ export default function NoteCard({ note, onNoteDelete }) {
     })
   }
 
+  /**
+   * Truncates the given text if it exceeds maxLength, adding ellipses.
+   * @param {string} text - The text to truncate.
+   * @param {number} maxLength - Maximum length allowed before truncation.
+   * @returns {string} - Possibly truncated text.
+   */
   const truncateText = (text, maxLength = 100) => {
     if (!text) return ''
     if (text.length <= maxLength) return text
     return text.slice(0, maxLength) + '...'
   }
 
+  /**
+   * Return a color for the note border based on the category name.
+   * @param {string} categoryName - e.g. 'random thoughts', 'school', etc.
+   * @returns {string} - A suitable border color code.
+   */
   const getBorderColor = (categoryName) => {
     if (!categoryName) return '#5a7777'
     const lowerName = categoryName.toLowerCase()
@@ -54,6 +83,7 @@ export default function NoteCard({ note, onNoteDelete }) {
     return '#5a7777'
   }
 
+  // Border color logic
   const borderColor = note.category ? getBorderColor(note.category.name) : '#0000FF'
 
   return (

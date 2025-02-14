@@ -1,3 +1,8 @@
+/* 
+   Global CSS for the Notes app frontend.
+   Resets margins and padding, defines base font family.
+*/
+
 body {
   margin: 0;
   padding: 0;

@@ -1,3 +1,8 @@
+/**
+ * Dashboard page where the user can view, create, and manage notes.
+ * Displays categories on the left and notes in a grid on the right.
+ */
+
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/router'
 import CategoryList from '../components/CategoryList'
@@ -11,18 +16,25 @@ import { UserOutlined } from '@ant-design/icons'
 const { confirm } = Modal
 
 export default function DashboardPage() {
+
+  // Next.js router for navigation
   const router = useRouter()
+
+  // Local states for categories, notes, etc.
   const [categories, setCategories] = useState([])
   const [notes, setNotes] = useState([])
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [token, setToken] = useState('')
   const [userName, setUserName] = useState('')
 
-  // For "Populate with LLM"
+  // State for controlling the "Populate with LLM" modal
   const [isPopulateModalVisible, setIsPopulateModalVisible] = useState(false)
   const [inspirationSubject, setInspirationSubject] = useState('')
   const [isPopulating, setIsPopulating] = useState(false)
 
+  /**
+   * On mount, check for the auth token. If not present, redirect to login.
+   */
   useEffect(() => {
     const storedToken = localStorage.getItem('token')
     if (!storedToken) {
@@ -40,6 +52,9 @@ export default function DashboardPage() {
     }
   }, [router])
 
+  /**
+   * Fetch categories and notes if a valid token is present.
+   */
   useEffect(() => {
     if (token) {
       fetchCategories()
@@ -47,28 +62,43 @@ export default function DashboardPage() {
     }
   }, [token])
 
+  /**
+   * Retrieves the user's categories from the API.
+   */
   const fetchCategories = async () => {
     try {
       const res = await api.getCategories()
       setCategories(res.data)
     } catch (error) {
       console.error(error)
+      message.error('Failed to load categories.')
     }
   }
 
+  /**
+   * Retrieves the user's notes from the API.
+   */
   const fetchNotes = async () => {
     try {
       const res = await api.getNotes()
       setNotes(res.data)
     } catch (error) {
       console.error(error)
+      message.error('Failed to load notes.')
     }
   }
 
+  /**
+   * Handler when a category is selected from the list.
+   * @param {string} cat - The category ID or 'all'
+   */
   const handleCategorySelect = (cat) => {
     setSelectedCategory(cat)
   }
 
+  /**
+   * Creates a new note under a default or "Random Thoughts" category.
+   */
   const handleCreateNote = async () => {
     try {
       let randomThoughts = categories.find(cat => cat.name.toLowerCase() === 'random thoughts')
@@ -81,9 +111,13 @@ export default function DashboardPage() {
       router.push(`/notes/${res.data.id}`)
     } catch (error) {
       console.error(error)
+      message.error('Failed to create a new note.')
     }
   }
 
+  /**
+   * Logs out the current user after confirmation.
+   */
   const handleLogout = () => {
     confirm({
       title: 'Logout',
@@ -103,16 +137,25 @@ export default function DashboardPage() {
     })
   }
 
+  /**
+   * Callback to remove a deleted note from the UI.
+   * @param {number} noteId - ID of the note that was deleted.
+   */
   const handleNoteDelete = (noteId) => {
     setNotes(prev => prev.filter(n => n.id !== noteId))
   }
 
-  // Show the modal for "Populate with LLM"
+  /**
+   * Shows the "Populate with LLM" modal.
+   */
   const showPopulateModal = () => {
     setInspirationSubject('')
     setIsPopulateModalVisible(true)
   }
 
+  /**
+   * Executes the "Populate with LLM" request to the backend.
+   */
   const handlePopulateOk = async () => {
     setIsPopulating(true)
     try {
@@ -124,12 +167,14 @@ export default function DashboardPage() {
         },
         body: JSON.stringify({ subject: inspirationSubject })
       })
+
       if (!response.ok) {
         const errData = await response.json()
         message.error('Failed to populate: ' + (errData.error || response.status))
         setIsPopulating(false)
         return
       }
+
       const data = await response.json()
       await fetchNotes()
       message.success(`Successfully created Notes inspired by "${inspirationSubject}".`)
@@ -142,11 +187,16 @@ export default function DashboardPage() {
     }
   }
 
+  /**
+   * Hides the "Populate with LLM" modal without creating notes.
+   */
   const handlePopulateCancel = () => {
     setIsPopulateModalVisible(false)
   }
 
-  // Clear all notes with confirm
+  /**
+   * Clears all notes after a user confirmation.
+   */
   const clearAllNotes = () => {
     confirm({
       title: 'Clear all notes',
@@ -166,10 +216,16 @@ export default function DashboardPage() {
     })
   }
 
+  /**
+   * Navigates to the profile editing page.
+   */
   const handleEditProfile = () => {
     router.push('/profile')
   }
 
+  /**
+   * Defines the menu items for the dropdown (edit profile, populate, clear, logout).
+   */
   const menuItems = [
     {
       key: 'profile',
@@ -200,14 +256,17 @@ export default function DashboardPage() {
     }
   ]
 
-  // Filter notes
+  /**
+   * Filters notes by the selected category. If 'all', return all notes.
+   */
   const filteredNotes = selectedCategory === 'all'
     ? notes
     : notes.filter(note => note.category && note.category.id === parseInt(selectedCategory))
 
   return (
     <div style={{ display: 'flex', height: '100vh', position: 'relative' }}>
-      {/* The Populate with LLM Modal */}
+
+      {/* Modal for "Populate with LLM" feature */}
       <Modal
         title="Give me something for me get inspired"
         open={isPopulateModalVisible}
@@ -230,6 +289,7 @@ export default function DashboardPage() {
         )}
       </Modal>
 
+      {/* User menu dropdown */}
       <div style={{ position: 'absolute', top: '50px', left: '20px' }}>
         <Dropdown menu={{ items: menuItems }} trigger={['click']}>
           <div
@@ -257,6 +317,7 @@ export default function DashboardPage() {
         </Dropdown>
       </div>
 
+      {/* CategoryList on the left */}
       <div style={{ marginTop: '88px' }}>
         <CategoryList
           categories={categories}
@@ -266,11 +327,12 @@ export default function DashboardPage() {
         />
       </div>
 
+      {/* Notes grid on the right */}
       <div style={{ flex: 1, position: 'relative', boxSizing: 'border-box' }}>
         <div style={{ position: 'absolute', top: '55px', right: '40px' }}>
           <NewNoteButton onClick={handleCreateNote} />
         </div>
-        {/* This container is where the notes or the empty state will display */}
+
         <div
           style={{
             marginTop: '88px',
@@ -284,7 +346,7 @@ export default function DashboardPage() {
           }}
         >
           {filteredNotes.length === 0 ? (
-            // Full overlay to center the content vertically/horizontally
+            // Empty state with a nice illustration
             <div
               style={{
                 width: '100%',
@@ -292,12 +354,6 @@ export default function DashboardPage() {
                 position: 'relative',
               }}
             >
-              {/* 
-                Absolutely center the container (cup + text).
-                Then shift left by 100px.  Adjust if you want more or less offset.
-                Fine-tune transforms here for horizontal shifts:
-                e.g. translate(-50%, -50%) translateX(-80px), etc.
-              */}
               <div
                 style={{
                   position: 'absolute',

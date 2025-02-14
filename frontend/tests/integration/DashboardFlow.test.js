@@ -1,9 +1,10 @@
 /**
- * A simple integration test that simulates:
- * 1. Rendering a dashboard page
- * 2. Mocking API calls (axios)
- * 3. Checking if categories & notes are displayed
+ * Integration test that simulates the dashboard workflow:
+ *   1. Rendering the dashboard
+ *   2. Mocking API calls
+ *   3. Checking categories & notes are displayed
  */
+
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
 import DashboardPage from '../../pages/dashboard';
@@ -63,8 +64,8 @@ describe('DashboardPage Integration', () => {
       expect(api.getCategories).toHaveBeenCalled();
     });
 
-    // Narrow the search to table cells (selector: 'td') so we don't conflict with the note's text
-    expect(screen.getByText('All Categories')).toBeInTheDocument(); // single occurrence
+    // Verify existence of "All Categories" text
+    expect(screen.getByText('All Categories')).toBeInTheDocument();
     expect(screen.getByText('Random Thoughts', { selector: 'td' })).toBeInTheDocument();
     expect(screen.getByText('School', { selector: 'td' })).toBeInTheDocument();
     expect(screen.getByText('Personal', { selector: 'td' })).toBeInTheDocument();
@@ -74,9 +75,8 @@ describe('DashboardPage Integration', () => {
       expect(api.getNotes).toHaveBeenCalled();
     });
 
-    // Sample note should be displayed
+    // Sample note should appear
     expect(screen.getByText('Sample Note')).toBeInTheDocument();
-    // Check "Random Thoughts" from the note element (which is in a <p>)
     expect(screen.getByText(/Random Thoughts/, { selector: 'p' })).toBeInTheDocument();
   });
 });

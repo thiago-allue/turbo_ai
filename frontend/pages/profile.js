@@ -1,12 +1,25 @@
+/**
+ * Profile page for editing user info.
+ * Allows changing name fields and password.
+ */
+
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Form, Input, Button, message, Row, Col } from 'antd'
 import api from '../services/api'
 
 export default function ProfilePage() {
+
+  // Next.js router for navigation
   const router = useRouter()
+
+  // Ant Design form object
   const [form] = Form.useForm()
 
+  /**
+   * Check if the user is logged in on mount.
+   * If not, redirect to login. Otherwise, fetch profile data.
+   */
   useEffect(() => {
     const token = localStorage.getItem('token')
     if (!token) {
@@ -16,11 +29,14 @@ export default function ProfilePage() {
     fetchProfile()
   }, [router])
 
+  /**
+   * Fetch the user's profile data from the API and populate the form.
+   */
   const fetchProfile = async () => {
     try {
       const res = await api.getProfile()
       form.setFieldsValue({
-        email: res.data.username, // read-only
+        email: res.data.username,
         firstName: res.data.first_name || '',
         lastName: res.data.last_name || '',
         currentPassword: '',
@@ -33,8 +49,13 @@ export default function ProfilePage() {
     }
   }
 
+  /**
+   * Handle profile form submission to update user info.
+   * If newPassword is provided, currentPassword is required.
+   */
   const onFinish = async (values) => {
-    message.destroy() // clear old messages
+    message.destroy() // Clear old messages
+
     try {
       await api.updateProfile({
         first_name: values.firstName,
@@ -44,8 +65,7 @@ export default function ProfilePage() {
         repeat_new_password: values.repeatNewPassword
       })
 
-      // Store the updated first name in localStorage so that the Dashboard
-      // "Welcome, {name}" reflects the new name next time we see it.
+      // Update local storage for first name
       const newFirstName = (values.firstName || '').trim()
       localStorage.setItem('first_name', newFirstName)
 
@@ -63,6 +83,9 @@ export default function ProfilePage() {
     }
   }
 
+  /**
+   * Navigate back to the dashboard page.
+   */
   const handleBack = () => {
     router.push('/dashboard')
   }
@@ -132,9 +155,9 @@ export default function ProfilePage() {
           position: 'fixed',
           bottom: '20px',
           left: '20px',
-          width: '200px',      // choose a suitable width
+          width: '200px',
           height: 'auto',
-          zIndex: 999         // ensure it appears on top
+          zIndex: 999
         }}
       />
     </div>

@@ -1,3 +1,8 @@
+/**
+ * Unit tests for the CategoryList component.
+ * Ensures categories and their note counts render properly.
+ */
+
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 import CategoryList from '../../../components/CategoryList';
@@ -25,8 +30,8 @@ describe('CategoryList Component', () => {
         onSelectCategory={() => {}}
       />
     );
+    // "All Categories" should reflect total notes
     expect(screen.getByText('All Categories')).toBeInTheDocument();
-    // 4 total notes => "All Categories" count is 4
     expect(screen.getByText('4')).toBeInTheDocument();
   });
 
@@ -39,15 +44,15 @@ describe('CategoryList Component', () => {
         onSelectCategory={() => {}}
       />
     );
-    // Random Thoughts has 2 notes
+    // Random Thoughts => 2 notes
     expect(screen.getByText('Random Thoughts')).toBeInTheDocument();
     expect(screen.getByText('2')).toBeInTheDocument();
 
-    // School has 1 note
+    // School => 1 note
     expect(screen.getByText('School')).toBeInTheDocument();
     expect(screen.getByText('1')).toBeInTheDocument();
 
-    // Personal has 0 notes in this scenario
+    // Personal => 0 notes
     expect(screen.getByText('Personal')).toBeInTheDocument();
     expect(screen.getByText('0')).toBeInTheDocument();
   });

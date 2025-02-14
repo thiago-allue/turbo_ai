@@ -1,6 +1,13 @@
+/**
+ * A button to create a new note, styled with a rounded border and subtle hover effect.
+ */
+
 import React from "react";
 import styled from "styled-components";
 
+/**
+ * Styled button using styled-components for consistent design.
+ */
 const StyledButton = styled.button`
   display: inline-block;
   padding: 0.5em 1em;

@@ -1,15 +1,32 @@
+/**
+ * CategoryList component displaying a list of categories and their counts.
+ * Allows toggling "All Categories" or individual categories.
+ */
+
 import React from 'react'
 
 export default function CategoryList({ categories, notes, selectedCategory, onSelectCategory }) {
+
+  /**
+   * Handles clicking on "All Categories".
+   */
   const handleAllCategories = () => {
     onSelectCategory('all')
   }
 
+  /**
+   * Checks if the given category ID matches the currently selectedCategory.
+   * @param {number} catId - The category ID to check.
+   * @returns {boolean} True if selected, false otherwise.
+   */
   const isSelected = (catId) => {
     return selectedCategory === catId.toString()
   }
 
+  // Determine if "All Categories" is selected
   const allIsSelected = selectedCategory === 'all'
+
+  // Count total notes
   const allCount = notes.length
 
   return (
@@ -41,6 +58,7 @@ export default function CategoryList({ categories, notes, selectedCategory, onSe
             </td>
           </tr>
           {categories.map(cat => {
+            // Calculate how many notes belong to this category
             const count = notes.filter(n => n.category && n.category.id === cat.id).length
             const selected = isSelected(cat.id)
             return (

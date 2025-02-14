@@ -1,14 +1,17 @@
+/**
+ * Unit tests for the dateUtils module, ensuring proper formatting of dates.
+ */
+
 import { formatDate } from '../../../utils/dateUtils';
 
 describe('formatDate utility', () => {
   beforeAll(() => {
-    // Freeze time if needed
+    // Freeze time for consistent test results
     jest.useFakeTimers('modern');
     jest.setSystemTime(new Date('2025-02-13T12:00:00Z'));
   });
 
   afterAll(() => {
-    // Restore the original timer
     jest.useRealTimers();
   });
 

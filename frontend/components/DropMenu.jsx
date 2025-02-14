@@ -1,18 +1,34 @@
+/**
+ * DropMenu component for selecting a category from a dropdown.
+ * Shows the category color and name, with a dynamic toggle.
+ */
+
 import React, { useState } from 'react'
 import { DownOutlined } from '@ant-design/icons'
 
 export default function DropMenu({ categories, selectedCategoryId, onCategoryChange }) {
+
+  // Controls whether the dropdown is open
   const [open, setOpen] = useState(false)
 
+  /**
+   * Toggles the menu open/close state.
+   */
   const handleToggle = () => {
     setOpen(!open)
   }
 
+  /**
+   * Handles selecting a category.
+   * Closes the menu afterwards.
+   * @param {number} id - The category ID.
+   */
   const handleSelect = (id) => {
     onCategoryChange(id)
     setOpen(false)
   }
 
+  // Determine which category is currently selected
   const selectedCategory = categories.find(cat => cat.id === parseInt(selectedCategoryId)) || {}
 
   return (

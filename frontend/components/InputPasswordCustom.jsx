@@ -1,7 +1,15 @@
+/**
+ * Custom password input built on top of Ant Design's Input.Password component.
+ * Styled with a custom border, placeholder, and toggling icons.
+ */
+
 import styled from 'styled-components'
 import { Input } from 'antd'
 import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
 
+/**
+ * Extend the default Input.Password styling with styled-components.
+ */
 const StyledPassword = styled(Input.Password)`
   && {
     height: 39px;
@@ -20,6 +28,10 @@ const StyledPassword = styled(Input.Password)`
 `
 
 export default function InputPasswordCustom({ value, onChange, style }) {
+
+  /**
+   * Renders a custom Eye icon depending on the visibility state.
+   */
   return (
     <StyledPassword
       value={value}

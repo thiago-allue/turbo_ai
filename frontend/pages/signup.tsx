@@ -1,28 +1,54 @@
-import React, { useState } from 'react'
+/**
+ * Signup page where new users can register for the Notes app.
+ * Features first name, last name, email, and password fields.
+ */
+
+import React, { useState, FormEvent } from 'react'
 import { useRouter } from 'next/router'
 import Link from 'next/link'
 import api from '../services/api'
 import InputPasswordCustom from '../components/InputPasswordCustom'
 
+/**
+ * Represents the shape of data used to register a new user.
+ */
+interface SignupData {
+  first_name: string
+  last_name: string
+  username: string
+  password: string
+}
+
+/**
+ * Renders the SignUp component, allowing users to create a new account.
+ */
 export default function SignUp() {
   const router = useRouter()
 
-  const [firstName, setFirstName] = useState('')
-  const [lastName, setLastName]   = useState('')
-  const [email, setEmail]         = useState('')
-  const [password, setPassword]   = useState('')
-  const [error, setError]         = useState('')
+  // Form fields
+  const [firstName, setFirstName] = useState<string>('')
+  const [lastName, setLastName]   = useState<string>('')
+  const [email, setEmail]         = useState<string>('')
+  const [password, setPassword]   = useState<string>('')
+  const [error, setError]         = useState<string>('')
 
-  const handleSubmit = async (e) => {
+  /**
+   * Handles the submission of signup data.
+   * @param e - The form event.
+   */
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
+
     try {
-      const res = await api.register({
+      const payload: SignupData = {
         first_name: firstName,
         last_name: lastName,
         username: email,
         password
-      })
+      }
+
+      const res = await api.register(payload)
       const token = res.data.token
       localStorage.setItem('token', token)
 
@@ -30,7 +56,7 @@ export default function SignUp() {
       localStorage.setItem('first_name', first_name || '')
 
       router.push('/dashboard')
-    } catch (err) {
+    } catch (err: any) {
       setError(err.response?.data?.error || 'Signup failed')
     }
   }
