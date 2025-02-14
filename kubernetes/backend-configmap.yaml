@@ -1,0 +1,9 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: notes-backend-config
+  namespace: notes-app
+data:
+  DJANGO_SETTINGS_MODULE: "turbo_ai.settings"
+  # You can add more environment variables here, e.g.:
+  # SOME_OTHER_ENV: "SOME_VALUE"
