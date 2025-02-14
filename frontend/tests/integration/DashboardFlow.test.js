@@ -6,15 +6,15 @@
  */
 import React from 'react';
 import { render, screen, waitFor } from '@testing-library/react';
-import DashboardPage from '../../../pages/dashboard';
-import api from '../../../services/api';
+import DashboardPage from '../../pages/dashboard';
+import api from '../../services/api';
 import { useRouter } from 'next/router';
 
 jest.mock('next/router', () => ({
   useRouter: jest.fn(),
 }));
 
-jest.mock('../../../services/api', () => ({
+jest.mock('../../services/api', () => ({
   getCategories: jest.fn(),
   getNotes: jest.fn(),
   createNote: jest.fn(),
@@ -45,21 +45,29 @@ describe('DashboardPage Integration', () => {
     ]});
 
     api.getNotes.mockResolvedValue({ data: [
-      { id: 101, title: 'Sample Note', content: 'Note content', category: { id: 1, name: 'Random Thoughts', color: '#FFCBCB' }, updated_at: '2025-02-12T12:00:00Z' },
+      {
+        id: 101,
+        title: 'Sample Note',
+        content: 'Note content',
+        category: { id: 1, name: 'Random Thoughts', color: '#FFCBCB' },
+        updated_at: '2025-02-12T12:00:00Z'
+      },
     ]});
   });
 
   it('renders categories and notes', async () => {
     render(<DashboardPage />);
+
     // Wait for categories to load
     await waitFor(() => {
       expect(api.getCategories).toHaveBeenCalled();
     });
 
-    expect(screen.getByText('All Categories')).toBeInTheDocument();
-    expect(screen.getByText('Random Thoughts')).toBeInTheDocument();
-    expect(screen.getByText('School')).toBeInTheDocument();
-    expect(screen.getByText('Personal')).toBeInTheDocument();
+    // Narrow the search to table cells (selector: 'td') so we don't conflict with the note's text
+    expect(screen.getByText('All Categories')).toBeInTheDocument(); // single occurrence
+    expect(screen.getByText('Random Thoughts', { selector: 'td' })).toBeInTheDocument();
+    expect(screen.getByText('School', { selector: 'td' })).toBeInTheDocument();
+    expect(screen.getByText('Personal', { selector: 'td' })).toBeInTheDocument();
 
     // Wait for notes to load
     await waitFor(() => {
@@ -68,7 +76,7 @@ describe('DashboardPage Integration', () => {
 
     // Sample note should be displayed
     expect(screen.getByText('Sample Note')).toBeInTheDocument();
-    // The date might be "Yesterday" if time is "2025-02-13"
-    expect(screen.getByText(/Random Thoughts/)).toBeInTheDocument();
+    // Check "Random Thoughts" from the note element (which is in a <p>)
+    expect(screen.getByText(/Random Thoughts/, { selector: 'p' })).toBeInTheDocument();
   });
-};
+});

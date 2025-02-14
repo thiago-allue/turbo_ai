@@ -210,7 +210,7 @@ export default function DashboardPage() {
       {/* The Populate with LLM Modal */}
       <Modal
         title="Give me something for me get inspired"
-        visible={isPopulateModalVisible}
+        open={isPopulateModalVisible}
         onOk={handlePopulateOk}
         onCancel={handlePopulateCancel}
         okText="Create Notes"
@@ -313,7 +313,7 @@ export default function DashboardPage() {
                   src="/cup.png"
                   alt="No notes"
                   style={{
-                    width: '300px', // 50% bigger than original 200px
+                    width: '300px',
                     height: 'auto',
                   }}
                 />
