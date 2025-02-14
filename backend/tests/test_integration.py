@@ -1,10 +1,24 @@
+"""
+Integration tests for the 'notes' application.
+Covers user registration, login, profile, note creation, update, deletion, and logout.
+"""
+
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
+
 from notes.models import Category, Note
 
+
 class IntegrationTests(APITestCase):
-    def setUp(self):
+    """
+    End-to-end integration tests: user flow from registration through logout.
+    """
+
+    def setUp(self) -> None:
+        """
+        Initialize endpoint URIs for reuse.
+        """
         self.client = APIClient()
         self.register_url = '/api/v1/register/'
         self.login_url = '/api/v1/login/'
@@ -14,9 +28,8 @@ class IntegrationTests(APITestCase):
         self.categories_url = '/api/v1/categories/'
         self.populate_url = '/api/v1/populate_llm/'
 
-    def test_full_user_flow(self):
+    def test_full_user_flow(self) -> None:
         """
-        End-to-end integration test:
         1. Register user
         2. Login
         3. Get profile
@@ -53,14 +66,13 @@ class IntegrationTests(APITestCase):
         self.assertEqual(profile_resp.status_code, status.HTTP_200_OK)
         self.assertEqual(profile_resp.data['username'], 'flowtest@example.com')
 
-        # 4) Create note
-        # Find one of the default categories -> "Random Thoughts", "School", or "Personal"
+        # 4) Create note (find default categories)
         cats = self.client.get(self.categories_url)
         self.assertEqual(cats.status_code, status.HTTP_200_OK)
         cat_list = cats.data
-        self.assertTrue(len(cat_list) >= 3)  # "Random Thoughts","School","Personal"
-        category_id = cat_list[0]['id']
+        self.assertTrue(len(cat_list) >= 3)
 
+        category_id = cat_list[0]['id']
         note_payload = {
             'title': 'Integration Note',
             'content': 'Integration Content',
@@ -89,7 +101,6 @@ class IntegrationTests(APITestCase):
         # 7) Delete note
         delete_note_resp = self.client.delete(f'{self.notes_url}{note_id}/')
         self.assertEqual(delete_note_resp.status_code, status.HTTP_204_NO_CONTENT)
-        # Confirm it is not listed anymore
         notes_after_delete = self.client.get(self.notes_url)
         self.assertEqual(notes_after_delete.status_code, status.HTTP_200_OK)
         self.assertTrue(all(n['id'] != note_id for n in notes_after_delete.data))
@@ -98,26 +109,20 @@ class IntegrationTests(APITestCase):
         logout_resp = self.client.post(self.logout_url)
         self.assertEqual(logout_resp.status_code, status.HTTP_200_OK)
 
-    def test_populate_llm_integration(self):
+    def test_populate_llm_integration(self) -> None:
         """
-        Tests user flow to:
+        Tests user flow:
         1. Register
         2. Login
         3. Call populate_llm
         """
         # Register
-        reg_payload = {
-            'username': 'poptest@example.com',
-            'password': 'pop123pass'
-        }
+        reg_payload = {'username': 'poptest@example.com', 'password': 'pop123pass'}
         reg_resp = self.client.post(self.register_url, reg_payload, format='json')
         self.assertEqual(reg_resp.status_code, status.HTTP_201_CREATED)
 
         # Login
-        login_payload = {
-            'username': 'poptest@example.com',
-            'password': 'pop123pass'
-        }
+        login_payload = {'username': 'poptest@example.com', 'password': 'pop123pass'}
         login_resp = self.client.post(self.login_url, login_payload, format='json')
         self.assertEqual(login_resp.status_code, status.HTTP_200_OK)
         token = login_resp.data['token']
