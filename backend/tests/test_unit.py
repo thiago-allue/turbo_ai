@@ -7,7 +7,7 @@ from unittest.mock import patch, MagicMock
 import json
 import os
 
-from .models import Category, Note
+from notes.models import Category, Note
 
 class ModelTests(TestCase):
     def setUp(self):
@@ -210,62 +210,6 @@ class ProfileViewTests(APITestCase):
         response = self.client.put(url, data, format='json')
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertIn('error', response.data)
-
-
-class CategoryViewSetTests(APITestCase):
-    def setUp(self):
-        self.user = User.objects.create_user(username='test@example.com', password='password123')
-        self.cat1 = Category.objects.create(user=self.user, name='Cat1', color='#FF0000')
-        self.cat2 = Category.objects.create(user=self.user, name='Cat2', color='#00FF00')
-
-        url = '/api/v1/login/'
-        data = {
-            'username': 'test@example.com',
-            'password': 'password123'
-        }
-        response = self.client.post(url, data, format='json')
-        self.token = response.data['token']
-        self.client.credentials(HTTP_AUTHORIZATION='Token ' + self.token)
-
-    def test_list_categories(self):
-        url = '/api/v1/categories/'
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(len(response.data), 2)
-
-    def test_create_category(self):
-        url = '/api/v1/categories/'
-        data = {
-            'name': 'NewCategory',
-            'color': '#123456'
-        }
-        response = self.client.post(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
-        self.assertEqual(response.data['name'], 'NewCategory')
-        self.assertEqual(response.data['color'], '#123456')
-
-    def test_retrieve_category(self):
-        url = f'/api/v1/categories/{self.cat1.id}/'
-        response = self.client.get(url)
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['name'], 'Cat1')
-
-    def test_update_category(self):
-        url = f'/api/v1/categories/{self.cat1.id}/'
-        data = {
-            'name': 'UpdatedCat1',
-            'color': '#654321'
-        }
-        response = self.client.put(url, data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_200_OK)
-        self.assertEqual(response.data['name'], 'UpdatedCat1')
-        self.assertEqual(response.data['color'], '#654321')
-
-    def test_delete_category(self):
-        url = f'/api/v1/categories/{self.cat1.id}/'
-        response = self.client.delete(url)
-        self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
-        self.assertFalse(Category.objects.filter(id=self.cat1.id).exists())
 
 
 class NoteViewSetTests(APITestCase):

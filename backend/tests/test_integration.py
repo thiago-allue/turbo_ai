@@ -1,7 +1,7 @@
 from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
-from .models import Category, Note
+from notes.models import Category, Note
 
 class IntegrationTests(APITestCase):
     def setUp(self):
