@@ -4,7 +4,7 @@
 
 /**
  * Format a given date string into "Today", "Yesterday", or "MMM DD".
- * 
+ *
  * @param {string | null | undefined} dateString - The input date string in ISO format.
  * @returns {string} - The formatted date string.
  */
@@ -27,7 +27,7 @@ export function formatDate(dateString) {
     return 'Yesterday'
   } else {
     // Format date as 'MMM DD' if it's older than yesterday
-    const options = { month: 'short', day: 'numeric' }
+    const options = {month: 'short', day: 'numeric'}
     return date.toLocaleDateString('en-US', options)
   }
 }

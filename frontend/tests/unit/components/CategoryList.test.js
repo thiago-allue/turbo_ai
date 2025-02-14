@@ -4,21 +4,21 @@
  */
 
 import React from 'react';
-import { render, screen, fireEvent } from '@testing-library/react';
+import {fireEvent, render, screen} from '@testing-library/react';
 import CategoryList from '../../../components/CategoryList';
 
 describe('CategoryList Component', () => {
   const mockCategories = [
-    { id: 1, name: 'Random Thoughts', color: '#FFCBCB', user: 2 },
-    { id: 2, name: 'School', color: '#FFF176', user: 2 },
-    { id: 3, name: 'Personal', color: '#AFC7BD', user: 2 },
+    {id: 1, name: 'Random Thoughts', color: '#FFCBCB', user: 2},
+    {id: 2, name: 'School', color: '#FFF176', user: 2},
+    {id: 3, name: 'Personal', color: '#AFC7BD', user: 2},
   ];
 
   const mockNotes = [
-    { id: 10, title: 'Note 1', category: { id: 1 }, updated_at: '' },
-    { id: 11, title: 'Note 2', category: { id: 2 }, updated_at: '' },
-    { id: 12, title: 'Note 3', category: { id: 1 }, updated_at: '' },
-    { id: 13, title: 'Note 4', category: null, updated_at: '' },
+    {id: 10, title: 'Note 1', category: {id: 1}, updated_at: ''},
+    {id: 11, title: 'Note 2', category: {id: 2}, updated_at: ''},
+    {id: 12, title: 'Note 3', category: {id: 1}, updated_at: ''},
+    {id: 13, title: 'Note 4', category: null, updated_at: ''},
   ];
 
   it('renders "All Categories" with correct count', () => {
@@ -26,8 +26,9 @@ describe('CategoryList Component', () => {
       <CategoryList
         categories={mockCategories}
         notes={mockNotes}
-        selectedCategory='all'
-        onSelectCategory={() => {}}
+        selectedCategory="all"
+        onSelectCategory={() => {
+        }}
       />
     );
     // "All Categories" should reflect total notes
@@ -40,8 +41,9 @@ describe('CategoryList Component', () => {
       <CategoryList
         categories={mockCategories}
         notes={mockNotes}
-        selectedCategory='all'
-        onSelectCategory={() => {}}
+        selectedCategory="all"
+        onSelectCategory={() => {
+        }}
       />
     );
     // Random Thoughts => 2 notes
@@ -63,7 +65,7 @@ describe('CategoryList Component', () => {
       <CategoryList
         categories={mockCategories}
         notes={mockNotes}
-        selectedCategory='all'
+        selectedCategory="all"
         onSelectCategory={mockSelect}
       />
     );

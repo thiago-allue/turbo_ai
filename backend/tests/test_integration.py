@@ -3,11 +3,8 @@ Integration tests for the 'notes' application.
 Covers user registration, login, profile, note creation, update, deletion, and logout.
 """
 
-from django.contrib.auth.models import User
 from rest_framework import status
 from rest_framework.test import APITestCase, APIClient
-
-from notes.models import Category, Note
 
 
 class IntegrationTests(APITestCase):

@@ -4,8 +4,8 @@
  */
 
 import styled from 'styled-components'
-import { Input } from 'antd'
-import { EyeInvisibleOutlined, EyeTwoTone } from '@ant-design/icons'
+import {Input} from 'antd'
+import {EyeInvisibleOutlined, EyeTwoTone} from '@ant-design/icons'
 
 /**
  * Extend the default Input.Password styling with styled-components.
@@ -19,6 +19,7 @@ const StyledPassword = styled(Input.Password)`
     box-sizing: border-box;
 
     /* Placeholder styling */
+
     ::placeholder {
       color: #947038;
       font-family: "Inter-Regular", Helvetica, sans-serif;
@@ -27,7 +28,7 @@ const StyledPassword = styled(Input.Password)`
   }
 `
 
-export default function InputPasswordCustom({ value, onChange, style }) {
+export default function InputPasswordCustom({value, onChange, style}) {
 
   /**
    * Renders a custom Eye icon depending on the visibility state.
@@ -40,8 +41,8 @@ export default function InputPasswordCustom({ value, onChange, style }) {
       style={style}
       iconRender={(visible) =>
         visible
-          ? <EyeTwoTone twoToneColor="#8B6A29" />
-          : <EyeInvisibleOutlined style={{ color: '#8B6A29' }} />
+          ? <EyeTwoTone twoToneColor="#8B6A29"/>
+          : <EyeInvisibleOutlined style={{color: '#8B6A29'}}/>
       }
     />
   )

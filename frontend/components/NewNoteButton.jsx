@@ -30,7 +30,7 @@ const StyledButton = styled.button`
   }
 `;
 
-const NewNoteButton = ({ onClick }) => {
+const NewNoteButton = ({onClick}) => {
   return (
     <StyledButton onClick={onClick}>
       + New Note

@@ -6,6 +6,7 @@ Includes the routes for notes, categories, user authentication, and LLM populati
 from django.contrib import admin
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
+
 from notes.views import (
     NoteViewSet,
     CategoryViewSet,

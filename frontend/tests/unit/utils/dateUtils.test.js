@@ -2,7 +2,7 @@
  * Unit tests for the dateUtils module, ensuring proper formatting of dates.
  */
 
-import { formatDate } from '../../../utils/dateUtils';
+import {formatDate} from '../../../utils/dateUtils';
 
 describe('formatDate utility', () => {
   beforeAll(() => {

@@ -3,8 +3,8 @@
  * Features first name, last name, email, and password fields.
  */
 
-import React, { useState, FormEvent } from 'react'
-import { useRouter } from 'next/router'
+import React, {FormEvent, useState} from 'react'
+import {useRouter} from 'next/router'
 import Link from 'next/link'
 import api from '../services/api'
 import InputPasswordCustom from '../components/InputPasswordCustom'
@@ -24,14 +24,14 @@ interface SignupData {
  */
 export default function SignUp() {
   const router = useRouter()
-
+  
   // Form fields
   const [firstName, setFirstName] = useState<string>('')
-  const [lastName, setLastName]   = useState<string>('')
-  const [email, setEmail]         = useState<string>('')
-  const [password, setPassword]   = useState<string>('')
-  const [error, setError]         = useState<string>('')
-
+  const [lastName, setLastName] = useState<string>('')
+  const [email, setEmail] = useState<string>('')
+  const [password, setPassword] = useState<string>('')
+  const [error, setError] = useState<string>('')
+  
   /**
    * Handles the submission of signup data.
    * @param e - The form event.
@@ -39,7 +39,7 @@ export default function SignUp() {
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault()
     setError('')
-
+    
     try {
       const payload: SignupData = {
         first_name: firstName,
@@ -47,20 +47,20 @@ export default function SignUp() {
         username: email,
         password
       }
-
+      
       const res = await api.register(payload)
       const token = res.data.token
       localStorage.setItem('token', token)
-
-      const { first_name } = res.data.user
+      
+      const {first_name} = res.data.user
       localStorage.setItem('first_name', first_name || '')
-
+      
       router.push('/dashboard')
     } catch (err: any) {
       setError(err.response?.data?.error || 'Signup failed')
     }
   }
-
+  
   return (
     <>
       <style>{`
@@ -182,15 +182,15 @@ export default function SignUp() {
           cursor: pointer;
         }
       `}</style>
-
+      
       <div className="sign-up-container">
         <div className="content">
-          <img className="cat-image" src="/cat.png" alt="Cute cat" />
-
+          <img className="cat-image" src="/cat.png" alt="Cute cat"/>
+          
           <div className="headline">Yay, New Friend!</div>
-
+          
           {error && <div className="error-text">{error}</div>}
-
+          
           <form onSubmit={handleSubmit} className="form-container">
             <div className="name-inputs">
               <div className="field-wrapper first-name-field">
@@ -202,7 +202,7 @@ export default function SignUp() {
                   onChange={(e) => setFirstName(e.target.value)}
                 />
               </div>
-
+              
               <div className="field-wrapper">
                 <input
                   className="input-field"
@@ -213,7 +213,7 @@ export default function SignUp() {
                 />
               </div>
             </div>
-
+            
             <div className="single-field">
               <div className="field-wrapper">
                 <input
@@ -225,7 +225,7 @@ export default function SignUp() {
                 />
               </div>
             </div>
-
+            
             <div className="single-field">
               <InputPasswordCustom
                 style={{
@@ -240,12 +240,12 @@ export default function SignUp() {
                 onChange={(e) => setPassword(e.target.value)}
               />
             </div>
-
+            
             <button type="submit" className="signup-button">
               <div className="signup-button-text">Sign Up</div>
             </button>
           </form>
-
+          
           <Link href="/" legacyBehavior>
             <a className="login-link">We’re already friends!</a>
           </Link>

@@ -5,6 +5,7 @@ Configures installed apps, middleware, database, REST framework, logging, etc.
 
 import os
 from pathlib import Path
+
 from dotenv import load_dotenv
 
 # Load environment variables from .env file
@@ -107,7 +108,6 @@ REST_FRAMEWORK = {
 CORS_ALLOW_ALL_ORIGINS = True
 
 # Simple logging configuration
-import logging.config
 
 LOGGING = {
     'version': 1,

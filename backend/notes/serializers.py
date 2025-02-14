@@ -2,8 +2,9 @@
 Serializers define how model instances are converted to and from JSON representations.
 """
 
-from rest_framework import serializers
 from django.contrib.auth.models import User
+from rest_framework import serializers
+
 from .models import Category, Note
 
 

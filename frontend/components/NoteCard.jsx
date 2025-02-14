@@ -3,16 +3,16 @@
  * Shows the last edited date, category, truncated content, and a delete icon.
  */
 
-import React, { useState } from 'react'
-import { useRouter } from 'next/router'
-import { formatDate } from '../utils/dateUtils'
-import { DeleteFilled } from '@ant-design/icons'
+import React, {useState} from 'react'
+import {useRouter} from 'next/router'
+import {formatDate} from '../utils/dateUtils'
+import {DeleteFilled} from '@ant-design/icons'
 import api from '../services/api'
-import { Modal, message } from 'antd'
+import {message, Modal} from 'antd'
 
-const { confirm } = Modal
+const {confirm} = Modal
 
-export default function NoteCard({ note, onNoteDelete }) {
+export default function NoteCard({note, onNoteDelete}) {
 
   // Next.js router for navigating to the note detail page
   const router = useRouter()
@@ -101,22 +101,22 @@ export default function NoteCard({ note, onNoteDelete }) {
       }}
       onClick={handleCardClick}
     >
-      <p style={{ fontSize: '0.8rem', margin: 0 }}>
+      <p style={{fontSize: '0.8rem', margin: 0}}>
         <strong>{formatDate(note.updated_at)}</strong>{'    '}
         {note.category ? note.category.name : 'No Category'}
       </p>
 
-      <h4 style={{ margin: '5px 0', fontSize: '1.5rem', fontFamily: 'Inria Serif' }}>
+      <h4 style={{margin: '5px 0', fontSize: '1.5rem', fontFamily: 'Inria Serif'}}>
         {note.title || 'Untitled'}
       </h4>
 
-      <p style={{ fontSize: '0.9rem', color: '#555', fontFamily: 'Inter' }}>
+      <p style={{fontSize: '0.9rem', color: '#555', fontFamily: 'Inter'}}>
         {truncateText(note.content, 80)}
       </p>
 
-      <div style={{ position: 'absolute', bottom: '10px', right: '10px' }}>
+      <div style={{position: 'absolute', bottom: '10px', right: '10px'}}>
         <DeleteFilled
-          style={{ color: 'rgb(217,92,92)', fontSize: '20px', cursor: 'pointer' }}
+          style={{color: 'rgb(217,92,92)', fontSize: '20px', cursor: 'pointer'}}
           onClick={handleDelete}
         />
       </div>

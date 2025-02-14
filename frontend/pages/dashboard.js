@@ -3,17 +3,17 @@
  * Displays categories on the left and notes in a grid on the right.
  */
 
-import { useEffect, useState } from 'react'
-import { useRouter } from 'next/router'
+import {useEffect, useState} from 'react'
+import {useRouter} from 'next/router'
 import CategoryList from '../components/CategoryList'
 import NoteCard from '../components/NoteCard'
 import api from '../services/api'
 import NewNoteButton from '../components/NewNoteButton'
 
-import { Menu, Dropdown, Modal, message, Input, Spin } from 'antd'
-import { UserOutlined } from '@ant-design/icons'
+import {Dropdown, Input, message, Modal, Spin} from 'antd'
+import {UserOutlined} from '@ant-design/icons'
 
-const { confirm } = Modal
+const {confirm} = Modal
 
 export default function DashboardPage() {
 
@@ -107,7 +107,7 @@ export default function DashboardPage() {
       }
       if (!randomThoughts) return
 
-      const res = await api.createNote({ category_id: randomThoughts.id })
+      const res = await api.createNote({category_id: randomThoughts.id})
       router.push(`/notes/${res.data.id}`)
     } catch (error) {
       console.error(error)
@@ -165,7 +165,7 @@ export default function DashboardPage() {
           'Content-Type': 'application/json',
           'Authorization': 'Token ' + token
         },
-        body: JSON.stringify({ subject: inspirationSubject })
+        body: JSON.stringify({subject: inspirationSubject})
       })
 
       if (!response.ok) {
@@ -248,7 +248,7 @@ export default function DashboardPage() {
         }
       ]
     },
-    { type: 'divider' },
+    {type: 'divider'},
     {
       key: 'logout',
       label: 'Logout',
@@ -264,7 +264,7 @@ export default function DashboardPage() {
     : notes.filter(note => note.category && note.category.id === parseInt(selectedCategory))
 
   return (
-    <div style={{ display: 'flex', height: '100vh', position: 'relative' }}>
+    <div style={{display: 'flex', height: '100vh', position: 'relative'}}>
 
       {/* Modal for "Populate with LLM" feature */}
       <Modal
@@ -277,8 +277,8 @@ export default function DashboardPage() {
         maskClosable={false}
       >
         {isPopulating ? (
-          <div style={{ textAlign: 'center', marginTop: 20 }}>
-            <Spin tip="Creating notes, please wait..." />
+          <div style={{textAlign: 'center', marginTop: 20}}>
+            <Spin tip="Creating notes, please wait..."/>
           </div>
         ) : (
           <Input
@@ -290,10 +290,10 @@ export default function DashboardPage() {
       </Modal>
 
       {/* User menu dropdown */}
-      <div style={{ position: 'absolute', top: '50px', left: '20px' }}>
-        <Dropdown menu={{ items: menuItems }} trigger={['click']}>
+      <div style={{position: 'absolute', top: '50px', left: '20px'}}>
+        <Dropdown menu={{items: menuItems}} trigger={['click']}>
           <div
-            style={{ display: 'inline-flex', alignItems: 'center', cursor: 'pointer' }}
+            style={{display: 'inline-flex', alignItems: 'center', cursor: 'pointer'}}
             onClick={(e) => e.preventDefault()}
           >
             <div
@@ -308,9 +308,9 @@ export default function DashboardPage() {
                 marginRight: '8px'
               }}
             >
-              <UserOutlined style={{ fontSize: '18px', color: '#666' }} />
+              <UserOutlined style={{fontSize: '18px', color: '#666'}}/>
             </div>
-            <span style={{ fontFamily: 'Inria Serif', fontSize:'18px', color: '#666' }}>
+            <span style={{fontFamily: 'Inria Serif', fontSize: '18px', color: '#666'}}>
               Welcome, {userName}!
             </span>
           </div>
@@ -318,7 +318,7 @@ export default function DashboardPage() {
       </div>
 
       {/* CategoryList on the left */}
-      <div style={{ marginTop: '88px' }}>
+      <div style={{marginTop: '88px'}}>
         <CategoryList
           categories={categories}
           notes={notes}
@@ -328,9 +328,9 @@ export default function DashboardPage() {
       </div>
 
       {/* Notes grid on the right */}
-      <div style={{ flex: 1, position: 'relative', boxSizing: 'border-box' }}>
-        <div style={{ position: 'absolute', top: '55px', right: '40px' }}>
-          <NewNoteButton onClick={handleCreateNote} />
+      <div style={{flex: 1, position: 'relative', boxSizing: 'border-box'}}>
+        <div style={{position: 'absolute', top: '55px', right: '40px'}}>
+          <NewNoteButton onClick={handleCreateNote}/>
         </div>
 
         <div

@@ -3,7 +3,7 @@
 # EKS Cluster IAM Role
 resource "aws_iam_role" "cluster_role" {
   # The name given to the IAM role
-  name               = "${var.cluster_name}-cluster-role"
+  name = "${var.cluster_name}-cluster-role"
 
   # The assume_role_policy grants EKS the permission to assume this role
   assume_role_policy = data.aws_iam_policy_document.eks_assume_role_policy.json
@@ -18,7 +18,7 @@ data "aws_iam_policy_document" "eks_assume_role_policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "Service"
+      type = "Service"
       identifiers = ["eks.amazonaws.com"]
     }
   }
@@ -50,7 +50,7 @@ data "aws_iam_policy_document" "eks_node_assume_role_policy" {
     actions = ["sts:AssumeRole"]
 
     principals {
-      type        = "Service"
+      type = "Service"
       identifiers = ["ec2.amazonaws.com"]
     }
   }

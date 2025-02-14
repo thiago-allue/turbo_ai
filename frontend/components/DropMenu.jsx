@@ -3,10 +3,10 @@
  * Shows the category color and name, with a dynamic toggle.
  */
 
-import React, { useState } from 'react'
-import { DownOutlined } from '@ant-design/icons'
+import React, {useState} from 'react'
+import {DownOutlined} from '@ant-design/icons'
 
-export default function DropMenu({ categories, selectedCategoryId, onCategoryChange }) {
+export default function DropMenu({categories, selectedCategoryId, onCategoryChange}) {
 
   // Controls whether the dropdown is open
   const [open, setOpen] = useState(false)
@@ -32,7 +32,7 @@ export default function DropMenu({ categories, selectedCategoryId, onCategoryCha
   const selectedCategory = categories.find(cat => cat.id === parseInt(selectedCategoryId)) || {}
 
   return (
-    <div style={{ position: 'relative', display: 'inline-block' }}>
+    <div style={{position: 'relative', display: 'inline-block'}}>
       <button
         onClick={handleToggle}
         style={{
@@ -52,7 +52,7 @@ export default function DropMenu({ categories, selectedCategoryId, onCategoryCha
           backgroundColor: selectedCategory.color || '#ccc'
         }}></span>
         {selectedCategory.name || 'Select Category'}
-        <DownOutlined style={{ marginLeft: '8px' }} />
+        <DownOutlined style={{marginLeft: '8px'}}/>
       </button>
 
       {open && (

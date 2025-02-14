@@ -11,7 +11,7 @@ resource "aws_eks_cluster" "this" {
     ]
     endpoint_private_access = var.enable_private_endpoints
     endpoint_public_access  = true
-    security_group_ids      = [aws_security_group.eks_cluster_sg.id]
+    security_group_ids = [aws_security_group.eks_cluster_sg.id]
   }
 
   depends_on = [
@@ -34,7 +34,7 @@ resource "aws_eks_node_group" "this" {
     max_size     = var.max_capacity
     min_size     = var.min_capacity
   }
-  disk_size      = 20
+  disk_size = 20
   instance_types = [var.instance_type]
 
   depends_on = [
@@ -47,11 +47,11 @@ resource "aws_eks_node_group" "this" {
 
 # Allows cluster SG to communicate with node SG
 resource "aws_security_group_rule" "cluster_to_node" {
-  type              = "ingress"
-  from_port         = 0
-  to_port           = 0
-  protocol          = "-1"
-  security_group_id = aws_security_group.eks_node_sg.id
+  type                     = "ingress"
+  from_port                = 0
+  to_port                  = 0
+  protocol                 = "-1"
+  security_group_id        = aws_security_group.eks_node_sg.id
   source_security_group_id = aws_security_group.eks_cluster_sg.id
 }
 

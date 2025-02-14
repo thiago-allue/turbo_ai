@@ -19,39 +19,39 @@ spec:
         app: notes-backend
     spec:
       containers:
-      - name: notes-backend-container
-        image: YOUR_BACKEND_IMAGE_HERE
-        ports:
-          - containerPort: 8000
+        - name: notes-backend-container
+          image: YOUR_BACKEND_IMAGE_HERE
+          ports:
+            - containerPort: 8000
 
-        # Environment variables can be injected via ConfigMap/Secret references.
-        env:
-          - name: DJANGO_SETTINGS_MODULE
-            valueFrom:
-              configMapKeyRef:
-                name: notes-backend-config
-                key: DJANGO_SETTINGS_MODULE
-          - name: SECRET_KEY
-            valueFrom:
-              secretKeyRef:
-                name: notes-backend-secret
-                key: SECRET_KEY
+          # Environment variables can be injected via ConfigMap/Secret references.
+          env:
+            - name: DJANGO_SETTINGS_MODULE
+              valueFrom:
+                configMapKeyRef:
+                  name: notes-backend-config
+                  key: DJANGO_SETTINGS_MODULE
+            - name: SECRET_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: notes-backend-secret
+                  key: SECRET_KEY
 
-        # Readiness probe ensures traffic is sent only after the backend is ready.
-        readinessProbe:
-          httpGet:
-            path: /admin
-            port: 8000
-          initialDelaySeconds: 15
-          periodSeconds: 10
+          # Readiness probe ensures traffic is sent only after the backend is ready.
+          readinessProbe:
+            httpGet:
+              path: /admin
+              port: 8000
+            initialDelaySeconds: 15
+            periodSeconds: 10
 
-        # Liveness probe restarts the container if it becomes unresponsive.
-        livenessProbe:
-          httpGet:
-            path: /admin
-            port: 8000
-          initialDelaySeconds: 30
-          periodSeconds: 10
+          # Liveness probe restarts the container if it becomes unresponsive.
+          livenessProbe:
+            httpGet:
+              path: /admin
+              port: 8000
+            initialDelaySeconds: 30
+            periodSeconds: 10
 
       imagePullSecrets:
         - name: aws-ecr-credentials

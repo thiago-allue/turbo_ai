@@ -3,8 +3,8 @@
  * Allows entering an email and password, with a link to sign up.
  */
 
-import { useState } from 'react'
-import { useRouter } from 'next/router'
+import {useState} from 'react'
+import {useRouter} from 'next/router'
 import Link from 'next/link'
 import api from '../services/api'
 import InputPasswordCustom from '../components/InputPasswordCustom'
@@ -124,11 +124,11 @@ export default function LoginPage() {
     setError('')
 
     try {
-      const res = await api.login({ username: email, password })
+      const res = await api.login({username: email, password})
       const token = res.data.token
       localStorage.setItem('token', token)
 
-      const { first_name } = res.data.user
+      const {first_name} = res.data.user
       localStorage.setItem('first_name', first_name || '')
 
       router.push('/dashboard')
@@ -145,6 +145,7 @@ export default function LoginPage() {
           font-family: "Inter-Regular", Helvetica, sans-serif;
           font-size: 12px;
         }
+
         a,
         a:visited,
         a:hover,

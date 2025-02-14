@@ -7,18 +7,18 @@ resource "aws_security_group" "eks_cluster_sg" {
 
   # Ingress rule allowing traffic within the same security group
   ingress {
-    description      = "Allow all traffic within the security group"
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    self             = true
+    description = "Allow all traffic within the security group"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self        = true
   }
 
   # Egress rule to allow outbound traffic to the internet
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 
@@ -34,27 +34,27 @@ resource "aws_security_group" "eks_node_sg" {
 
   # Node to Node communication
   ingress {
-    description      = "Allow node to node traffic"
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    self             = true
+    description = "Allow node to node traffic"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    self        = true
   }
 
   # Allow inbound from cluster security group
   ingress {
-    description      = "Allow inbound traffic from EKS cluster"
-    from_port        = 0
-    to_port          = 0
-    protocol         = "-1"
-    security_groups  = [aws_security_group.eks_cluster_sg.id]
+    description = "Allow inbound traffic from EKS cluster"
+    from_port   = 0
+    to_port     = 0
+    protocol    = "-1"
+    security_groups = [aws_security_group.eks_cluster_sg.id]
   }
 
   # Egress rule allowing outbound traffic
   egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
+    from_port = 0
+    to_port   = 0
+    protocol  = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
 

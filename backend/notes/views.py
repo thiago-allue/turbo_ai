@@ -1,27 +1,26 @@
 """
-View classes for handling CRUD operations related to Notes, Categories,
+View classes for handling CRUD operations related to Notes
 and user authentication (Register, Login, Logout).
 Also includes a Profile endpoint and a 'populate_llm' utility endpoint.
 """
 
-import os
 import json
 import logging
-import openai
+import os
 
-from django.contrib.auth.models import User
+import openai
 from django.contrib.auth import logout, authenticate
 from django.contrib.auth.hashers import check_password
+from django.contrib.auth.models import User
 from rest_framework import viewsets, status
+from rest_framework.authtoken.models import Token
+from rest_framework.permissions import AllowAny
+from rest_framework.request import Request
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from rest_framework.permissions import AllowAny
-from rest_framework.authtoken.models import Token
-from rest_framework.request import Request
 
 from .models import Note, Category
 from .serializers import NoteSerializer, CategorySerializer, UserSerializer
-
 
 # Create a logger for this module
 logger = logging.getLogger(__name__)

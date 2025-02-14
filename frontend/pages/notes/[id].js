@@ -3,16 +3,16 @@
  * Allows changing title, content, and category. Provides a close (return) button.
  */
 
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
+import {useEffect, useState} from 'react'
+import {useRouter} from 'next/router'
 import api from '../../services/api'
-import { formatDate } from '../../utils/dateUtils'
+import {formatDate} from '../../utils/dateUtils'
 import DropMenu from '../../components/DropMenu'
-import { message } from 'antd'
+import {message} from 'antd'
 
 export default function NoteDetail() {
   const router = useRouter()
-  const { id } = router.query
+  const {id} = router.query
 
   // States for note data
   const [note, setNote] = useState(null)
@@ -91,7 +91,7 @@ export default function NoteDetail() {
   const handleTitleChange = (e) => {
     const newTitle = e.target.value
     setTitle(newTitle)
-    updateNote({ title: newTitle })
+    updateNote({title: newTitle})
   }
 
   /**
@@ -100,7 +100,7 @@ export default function NoteDetail() {
   const handleContentChange = (e) => {
     const newContent = e.target.value
     setContent(newContent)
-    updateNote({ content: newContent })
+    updateNote({content: newContent})
   }
 
   /**
@@ -108,7 +108,7 @@ export default function NoteDetail() {
    */
   const handleCategoryChange = (newCategoryId) => {
     setCategoryId(newCategoryId.toString())
-    updateNote({ category_id: newCategoryId })
+    updateNote({category_id: newCategoryId})
   }
 
   /**
@@ -261,14 +261,14 @@ export default function NoteDetail() {
           style={titleInputStyle}
           value={title}
           onChange={handleTitleChange}
-          placeholder='Note Title'
+          placeholder="Note Title"
         />
 
         <textarea
           style={contentTextareaStyle}
           value={content}
           onChange={handleContentChange}
-          placeholder='Pour your heart out...'
+          placeholder="Pour your heart out..."
         />
       </div>
     </div>

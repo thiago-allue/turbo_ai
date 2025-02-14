@@ -4,6 +4,7 @@ Enables Category and Note models to be managed in the Django admin.
 """
 
 from django.contrib import admin
+
 from .models import Category, Note
 
 

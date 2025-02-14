@@ -20,15 +20,15 @@ variable "vpc_cidr_block" {
 }
 
 variable "public_subnets_cidrs" {
-  type        = list(string)
+  type = list(string)
   description = "List of CIDRs for public subnets."
-  default     = ["10.0.0.0/24", "10.0.1.0/24"]
+  default = ["10.0.0.0/24", "10.0.1.0/24"]
 }
 
 variable "private_subnets_cidrs" {
-  type        = list(string)
+  type = list(string)
   description = "List of CIDRs for private subnets."
-  default     = ["10.0.2.0/24", "10.0.3.0/24"]
+  default = ["10.0.2.0/24", "10.0.3.0/24"]
 }
 
 variable "enable_private_endpoints" {

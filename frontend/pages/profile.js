@@ -3,9 +3,9 @@
  * Allows changing name fields and password.
  */
 
-import React, { useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { Form, Input, Button, message, Row, Col } from 'antd'
+import React, {useEffect} from 'react'
+import {useRouter} from 'next/router'
+import {Button, Col, Form, Input, message, Row} from 'antd'
 import api from '../services/api'
 
 export default function ProfilePage() {
@@ -91,56 +91,56 @@ export default function ProfilePage() {
   }
 
   return (
-    <div style={{ minHeight: '100vh', position: 'relative' }}>
+    <div style={{minHeight: '100vh', position: 'relative'}}>
       {/* Main content area */}
-      <div style={{ maxWidth: 600, margin: '40px auto' }}>
+      <div style={{maxWidth: 600, margin: '40px auto'}}>
         <h1>Edit Profile</h1>
         <Form
           form={form}
-          layout='vertical'
+          layout="vertical"
           onFinish={onFinish}
-          style={{ marginTop: 20 }}
+          style={{marginTop: 20}}
         >
           {/* Email => read-only */}
-          <Form.Item label='Email (read-only)' name='email'>
-            <Input disabled />
+          <Form.Item label="Email (read-only)" name="email">
+            <Input disabled/>
           </Form.Item>
 
           <Row gutter={16}>
             <Col span={12}>
-              <Form.Item label='First Name' name='firstName'>
-                <Input />
+              <Form.Item label="First Name" name="firstName">
+                <Input/>
               </Form.Item>
             </Col>
             <Col span={12}>
-              <Form.Item label='Last Name' name='lastName'>
-                <Input />
+              <Form.Item label="Last Name" name="lastName">
+                <Input/>
               </Form.Item>
             </Col>
           </Row>
 
-          <hr />
+          <hr/>
 
           <Form.Item
-            label='Current Password (required to set a new password)'
-            name='currentPassword'
+            label="Current Password (required to set a new password)"
+            name="currentPassword"
           >
-            <Input.Password />
+            <Input.Password/>
           </Form.Item>
 
-          <Form.Item label='New Password' name='newPassword'>
-            <Input.Password />
+          <Form.Item label="New Password" name="newPassword">
+            <Input.Password/>
           </Form.Item>
 
-          <Form.Item label='Repeat New Password' name='repeatNewPassword'>
-            <Input.Password />
+          <Form.Item label="Repeat New Password" name="repeatNewPassword">
+            <Input.Password/>
           </Form.Item>
 
-          <div style={{ marginTop: 20 }}>
-            <Button type='primary' htmlType='submit'>
+          <div style={{marginTop: 20}}>
+            <Button type="primary" htmlType="submit">
               Save Changes
             </Button>
-            <Button style={{ marginLeft: 20 }} onClick={handleBack}>
+            <Button style={{marginLeft: 20}} onClick={handleBack}>
               Back to Dashboard
             </Button>
           </div>
@@ -149,8 +149,8 @@ export default function ProfilePage() {
 
       {/* Dog image pinned to bottom-left */}
       <img
-        src='/dog.png'
-        alt='Dog'
+        src="/dog.png"
+        alt="Dog"
         style={{
           position: 'fixed',
           bottom: '20px',

@@ -19,26 +19,26 @@ spec:
         app: notes-frontend
     spec:
       containers:
-      - name: notes-frontend-container
-        image: YOUR_FRONTEND_IMAGE_HERE
-        ports:
-          - containerPort: 3000
+        - name: notes-frontend-container
+          image: YOUR_FRONTEND_IMAGE_HERE
+          ports:
+            - containerPort: 3000
 
-        # Readiness probe ensures traffic is sent only after the frontend is ready.
-        readinessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 10
-          periodSeconds: 5
+          # Readiness probe ensures traffic is sent only after the frontend is ready.
+          readinessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 10
+            periodSeconds: 5
 
-        # Liveness probe checks if the container is still running.
-        livenessProbe:
-          httpGet:
-            path: /
-            port: 3000
-          initialDelaySeconds: 20
-          periodSeconds: 5
+          # Liveness probe checks if the container is still running.
+          livenessProbe:
+            httpGet:
+              path: /
+              port: 3000
+            initialDelaySeconds: 20
+            periodSeconds: 5
 
       imagePullSecrets:
         - name: aws-ecr-credentials
