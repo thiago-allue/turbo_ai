@@ -8,7 +8,13 @@ import {DownOutlined} from '@ant-design/icons'
 import {Modal, Input, Radio, message} from 'antd'
 import api from '../services/api'
 
-export default function DropMenu({categories, selectedCategoryId, onCategoryChange}) {
+export default function DropMenu({categories, selectedCategoryId, onCategoryChange, onRefreshCategories}) {
+  /**
+   * categories: array of existing category objects
+   * selectedCategoryId: the current category id (number) or '' string
+   * onCategoryChange: callback to change selected category id
+   * onRefreshCategories: callback to trigger parent to refresh categories
+   */
 
   // Controls whether the dropdown is open
   const [open, setOpen] = useState(false)
@@ -63,14 +69,24 @@ export default function DropMenu({categories, selectedCategoryId, onCategoryChan
     }
 
     try {
-      await api.createCategory({
+      const response = await api.createCategory({
         name: newCategoryName.trim(),
         color: newCategoryColor
       })
+      const newCat = response.data
       message.success('New category created.')
+
       setNewCatModalVisible(false)
       setNewCategoryName('')
       setNewCategoryColor('#F44336')
+
+      // Refresh categories from parent, then select the new category
+      if (onRefreshCategories) {
+        await onRefreshCategories()
+      }
+      if (newCat && newCat.id) {
+        onCategoryChange(newCat.id)
+      }
     } catch (error) {
       console.error(error)
       message.error('Failed to create new category.')
@@ -84,7 +100,6 @@ export default function DropMenu({categories, selectedCategoryId, onCategoryChan
 
   return (
     <div style={{position: 'relative', display: 'inline-block'}}>
-
       {/* Modal for creating a new category */}
       <Modal
         title="Create New Category"

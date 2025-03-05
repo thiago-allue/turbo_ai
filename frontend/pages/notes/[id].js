@@ -72,6 +72,14 @@ export default function NoteDetail() {
   }
 
   /**
+   * Called from DropMenu after user creates a new category.
+   * Refresh categories from the API again.
+   */
+  const onRefreshCategories = async () => {
+    await fetchCategories()
+  }
+
+  /**
    * Sends an update request to the API whenever a field is changed.
    * @param {Object} updatedFields - The fields to update (title, content, category_id).
    */
@@ -249,6 +257,7 @@ export default function NoteDetail() {
           categories={categories}
           selectedCategoryId={categoryId}
           onCategoryChange={handleCategoryChange}
+          onRefreshCategories={onRefreshCategories}
         />
       </div>
 
