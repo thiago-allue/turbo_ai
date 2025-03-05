@@ -179,6 +179,12 @@ class CategoryViewSet(viewsets.ModelViewSet):
         """
         return Category.objects.filter(user=self.request.user)
 
+    def perform_create(self, serializer):
+        """
+        Associates the newly created category with the authenticated user.
+        """
+        serializer.save(user=self.request.user)
+
 
 class ProfileView(APIView):
     """

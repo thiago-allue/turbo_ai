@@ -103,6 +103,13 @@ export default {
   updateCategory: (id, data) => apiClient.put(`categories/${id}/`, data),
 
   /**
+   * Create a new category for the logged-in user.
+   * @param {Object} data - The category data (name, color).
+   * @returns {Promise} Axios response promise.
+   */
+  createCategory: (data) => apiClient.post('categories/', data),
+
+  /**
    * Fetch the profile of the logged-in user.
    * @returns {Promise} Axios response promise.
    */

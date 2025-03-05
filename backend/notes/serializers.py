@@ -27,6 +27,7 @@ class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
         fields = ['id', 'name', 'color', 'user']
+        read_only_fields = ['user']
 
 
 class NoteSerializer(serializers.ModelSerializer):
@@ -51,10 +52,7 @@ class NoteSerializer(serializers.ModelSerializer):
         ]
         read_only_fields = ['created_at', 'updated_at']
 
-    def update(self, instance: Note, validated_data: dict) -> Note:
-        """
-        Overrides default update to allow setting category via category_id.
-        """
+    def update(self, instance, validated_data):
         category_id = validated_data.pop('category_id', None)
 
         if category_id is not None:
